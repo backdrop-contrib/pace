@@ -29,5 +29,28 @@ function pace_admin_settings_form() {
     ),
     '#default_value' => variable_get('pace_theme',array()),
   );
+
+  $form['pace_load_on_admin_enabled'] = array(
+    '#title' => t('Load in administration pages.'),
+    '#description' => t('PACE is disabled by default on administration pages. Check to enable'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('pace_load_on_admin_enabled',array()),
+  );
+
+  $form['pace_custom_color_enabled'] = array(
+    '#title' => t('EXPERIMENTAL: Select custom color for PACE.'),
+    '#description' => t('Override default PACE color. This setting will be outputted as CSS in your html head.<br>
+      It will not be aggregated. NOT compatible with all PACE themes.'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('pace_custom_color_enabled',array()),
+  );
+
+  $form['pace_custom_color_value'] = array(
+    '#title' => t('Set your color using HEX notation.'),
+    '#description' => t('Do not include the # sign.'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('pace_custom_color_value',array()),
+  );
+
   return system_settings_form($form);
 }

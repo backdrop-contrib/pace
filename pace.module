@@ -27,9 +27,27 @@ function pace_menu() {
  * Implements hook_preprocess_page().
  */
 function pace_preprocess_page(&$variables) {
-  //Don't use PACE on administration pages.
-  if(!path_is_admin(current_path())) {
-    drupal_add_js(drupal_get_path('module','pace') . '/js/pace.min.js', array('weight' => -100, 'preprocess' => FALSE));
-    drupal_add_css(drupal_get_path('module','pace') . '/css/' . variable_get('pace_theme'), array('weight' => -100, 'preprocess' => FALSE));
+  // Check if PACE is disabled for admin pages and don't load it.
+  if(!variable_get('pace_load_on_admin_enabled')) {
+    if(!path_is_admin(current_path())) {
+      load_pace();
+    }
+  }
+  else {
+    load_pace();
+  }
+}
+
+function load_pace() {
+  drupal_add_js(drupal_get_path('module','pace') . '/js/pace.min.js', array('weight' => -100, 'preprocess' => FALSE));
+  drupal_add_css(drupal_get_path('module','pace') . '/css/' . variable_get('pace_theme'), array('weight' => -100, 'preprocess' => FALSE));
+
+  if(variable_get('pace_custom_color_enabled')) {
+    $customcolor = '';
+    $customcolor .= '.pace .pace-progress {';
+    $customcolor .= 'background: #';
+    $customcolor .= variable_get('pace_custom_color_value');
+    $customcolor .= '; }';
+    drupal_add_css($customcolor,'inline');
   }
 }
