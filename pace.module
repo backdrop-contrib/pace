@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Loads PACE js.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function pace_preprocess_page(&$variables) {
+  drupal_add_js(drupal_get_path('module','pace') . '/js/pace.min.js', array('weight' => -100, 'preprocess' => FALSE));
+  drupal_add_css(drupal_get_path('module','pace') . '/css/pace-theme-flash.css', array('weight' => -100, 'preprocess' => FALSE));
+}
