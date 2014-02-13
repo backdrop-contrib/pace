@@ -1,3 +1,5 @@
 name = PACE
 description = Enable PACE loader on your website
 core = 7.x
+package = JavaScript
+configure = admin/config/user-interface/pace

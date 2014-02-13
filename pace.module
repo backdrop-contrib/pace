@@ -6,9 +6,30 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function pace_menu() {
+  $items = array();
+
+  $items['admin/config/user-interface/pace'] = array(
+    'title' => 'PACE Settings',
+    'description' => 'Administer PACE progress bar settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('pace_admin_settings_form'),
+    'access arguments' => array('manage PACE settings'),
+    'file' => 'pace.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_preprocess_page().
  */
 function pace_preprocess_page(&$variables) {
-  drupal_add_js(drupal_get_path('module','pace') . '/js/pace.min.js', array('weight' => -100, 'preprocess' => FALSE));
-  drupal_add_css(drupal_get_path('module','pace') . '/css/pace-theme-flash.css', array('weight' => -100, 'preprocess' => FALSE));
+  //Don't use PACE on administration pages.
+  if(!path_is_admin(current_path())) {
+    drupal_add_js(drupal_get_path('module','pace') . '/js/pace.min.js', array('weight' => -100, 'preprocess' => FALSE));
+    drupal_add_css(drupal_get_path('module','pace') . '/css/' . variable_get('pace_theme'), array('weight' => -100, 'preprocess' => FALSE));
+  }
 }
