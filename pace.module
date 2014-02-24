@@ -6,6 +6,17 @@
  */
 
 /**
+ * Implements hook_permission().
+ */
+function pace_permission() {
+  return array(
+    'manage PACE settings' => array(
+      'title' => t('Manage PACE settings'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function pace_menu() {
