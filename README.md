@@ -1,5 +1,5 @@
-PACE for Drupal
-Brings the magnificent PACE js (1) to your Drupal site.
+PACE for Backdrop
+Brings the magnificent PACE js (1) to your Backdrop site.
 
 PACE is a page load progress bar.
 It provides a beatiful progress indicator for page load. Progress is detected automatically.
