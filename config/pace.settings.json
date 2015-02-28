@@ -1,0 +1,7 @@
+{
+  "_config_name": "pace.settings",
+  "pace_theme": "pace-theme-minimal.css",
+  "pace_load_on_admin_enabled": "0",
+  "pace_custom_color_enabled": "0",
+  "pace_custom_color_value": "FF0000"
+}

@@ -5,7 +5,11 @@
  * Provide administration of PACE module.
  */
 
-function pace_admin_settings_form() {
+// Get the full config object
+
+function pace_settings_form() {
+  $config = config('pace.settings');
+
   $form = array();
   $form['pace_theme'] = array(
     '#title' => t('Select the theme that PACE should use'),
@@ -27,14 +31,14 @@ function pace_admin_settings_form() {
       'pace-theme-loading-bar.css' => 'loading bar',
       'pace-theme-mac-osx.css' => 'mac osx',
     ),
-    '#default_value' => variable_get('pace_theme',array()),
+    '#default_value' => $config->get('pace_theme'),
   );
 
   $form['pace_load_on_admin_enabled'] = array(
     '#title' => t('Load in administration pages.'),
     '#description' => t('PACE is disabled by default on administration pages. Check to enable'),
     '#type' => 'checkbox',
-    '#default_value' => variable_get('pace_load_on_admin_enabled',array()),
+    '#default_value' => $config->get('pace_load_on_admin_enabled'),
   );
 
   $form['pace_custom_color_enabled'] = array(
@@ -42,15 +46,34 @@ function pace_admin_settings_form() {
     '#description' => t('Override default PACE color. This setting will be outputted as CSS in your html head.<br>
       It will not be aggregated. NOT compatible with all PACE themes.'),
     '#type' => 'checkbox',
-    '#default_value' => variable_get('pace_custom_color_enabled',array()),
+    '#default_value' => $config->get('pace_custom_color_enabled'),
   );
 
   $form['pace_custom_color_value'] = array(
     '#title' => t('Set your color using HEX notation.'),
     '#description' => t('Do not include the # sign.'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('pace_custom_color_value',array()),
+    '#default_value' => $config->get('pace_custom_color_value'),
   );
 
-  return system_settings_form($form);
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save PACE configuration'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for pace_settings_form().
+ */
+function pace_settings_form_submit($form, &$form_state) {
+  $config = config('pace.settings');
+  $config->set('pace_theme', $form_state['values']['pace_theme']);
+  $config->set('pace_load_on_admin_enabled', $form_state['values']['pace_load_on_admin_enabled']);
+  $config->set('pace_custom_color_enabled', $form_state['values']['pace_custom_color_enabled']);
+  $config->set('pace_custom_color_value', $form_state['values']['pace_custom_color_value']);
+  $config->save();
+  backdrop_set_message(t('PACE configuration has been saved.'));
 }
